@@ -21,7 +21,7 @@ export const commentsSlice = createSlice({
   selectors: {
     selectComments: (state) => state.items,
     selectIsLoading: (state) => state.isLoading,
-    selectIsCreating: (state) => state.isCreating,
+    selectIsCreatingCom: (state) => state.isCreating,
   },
   extraReducers: (builder) => {
     builder
@@ -55,4 +55,4 @@ export const commentsSlice = createSlice({
 
 export const commentsReducer = commentsSlice.reducer;
 
-export const { selectComments, selectIsLoading, selectIsCreating } = commentsSlice.selectors;
+export const { selectComments, selectIsLoading, selectIsCreatingCom } = commentsSlice.selectors;

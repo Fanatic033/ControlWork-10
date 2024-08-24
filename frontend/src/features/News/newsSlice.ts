@@ -54,7 +54,7 @@ export const newsSlice = createSlice({
       })
     builder
       .addCase(deleteNews.fulfilled, (state, action) => {
-        state.items = state.items.filter(news => news.id.toString() !== action.meta.arg);  // ХЗ
+        state.items = state.items.filter(news => news.id.toString() !== action.meta.arg);
       });
     builder
       .addCase(fetchOneNew.pending, (state) => {

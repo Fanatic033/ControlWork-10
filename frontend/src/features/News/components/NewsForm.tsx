@@ -12,7 +12,7 @@ interface Props {
   isLoading: boolean;
 }
 
-const ProductForm: React.FC<Props> = ({onSubmit, isLoading}) => {
+const NewsForm: React.FC<Props> = ({onSubmit, isLoading}) => {
   const dispatch = useAppDispatch();
 
   const [state, setState] = useState<NewsMutation>({
@@ -83,4 +83,4 @@ const ProductForm: React.FC<Props> = ({onSubmit, isLoading}) => {
   );
 };
 
-export default ProductForm;
+export default NewsForm;

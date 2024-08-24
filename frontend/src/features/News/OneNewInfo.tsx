@@ -8,12 +8,15 @@ import { fetchOneNew } from './newsThunks.ts';
 import dayjs from 'dayjs';
 import CommentsList from '../Comments/CommentList.tsx';
 import { fetchCommentsByNewsId } from '../Comments/commentThunks.ts';
+import CommentForm from '../Comments/components/CommentForm.tsx';
+import { selectIsCreatingCom } from '../Comments/commentSlice.ts';
 
 const OneProduct = () => {
   const {id} = useParams() as { id: string };
   const dispatch = useAppDispatch();
   const tiding = useAppSelector(selectTiding);
   const isFetching = useAppSelector(selectOneFetching);
+  const isCreating = useAppSelector(selectIsCreatingCom);
 
   useEffect(() => {
     dispatch(fetchOneNew(id));
@@ -53,11 +56,15 @@ const OneProduct = () => {
           </Typography>
 
           <Grid item>
-          <Typography variant="h5" gutterBottom>
-            Comments
-          </Typography>
-          <CommentsList id_news={parseInt(id)} />
-        </Grid>
+            <Typography variant="h5" gutterBottom>
+              Comments
+            </Typography>
+            <CommentsList id_news={parseInt(id)}/>
+          </Grid>
+
+          <Grid item>
+            <CommentForm id_news={parseInt(id)} isLoading={isCreating}/>
+          </Grid>
         </>
       )}
     </Grid>

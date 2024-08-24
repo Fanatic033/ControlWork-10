@@ -14,7 +14,7 @@ export const fetchCommentsByNewsId = createAsyncThunk<Comments[], string>(
 export const createComment = createAsyncThunk<Comments, CommentMutation>(
   'comments/create',
   async (commentMutation) => {
-    const {data: newComment} = await axiosApi.post<Comments>(`news/${commentMutation.id_news}/comments`, commentMutation);
+    const {data: newComment} = await axiosApi.post<Comments>(`comments`, commentMutation);
     return newComment;
   }
 );
