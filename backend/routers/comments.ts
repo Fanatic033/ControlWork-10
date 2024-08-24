@@ -9,8 +9,8 @@ const commentsRouter = express.Router();
 commentsRouter.get("/", async (req: express.Request, res: express.Response, next) => {
     try {
         const result = await mySqlDb.getConnection().query("SELECT * FROM comment");
-        const categories = result[0] as News[];
-        return res.send(categories);
+        const comments = result[0] as Comment[];
+        return res.send(comments);
     } catch (e) {
         next(e);
     }
@@ -21,11 +21,11 @@ commentsRouter.get("/:id", async (req: express.Request, res: express.Response, n
         const id = req.params.id;
         const result = await mySqlDb.getConnection().query("SELECT * FROM comment WHERE id = ?",
             [id]);
-        const category = result[0] as Comment[];
-        if (category.length === 0) {
+        const comment = result[0] as Comment[];
+        if (comment.length === 0) {
             return res.status(404).send("No comment found.");
         }
-        return res.send(category[0]);
+        return res.send(comment[0]);
     } catch (e) {
         next(e);
     }
@@ -70,7 +70,7 @@ commentsRouter.post("/", async (req: express.Request, res: express.Response, nex
             [resultHeader.insertId]
         );
 
-        const message = getNewResult[0] as News[];
+        const message = getNewResult[0] as Comment[];
         return res.send(message[0]);
     } catch (e) {
         next(e)
