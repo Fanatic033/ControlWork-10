@@ -62,4 +62,25 @@ newsRouter.post("/", imagesUpload.single('image'), async (req: express.Request, 
 })
 
 
+newsRouter.delete("/:id", async (req: express.Request, res: express.Response, next) => {
+    try {
+        const id = req.params.id;
+
+        const result = await mySqlDb.getConnection().query(
+            'DELETE FROM news WHERE id = ?',
+            [id]
+        );
+
+        const resultHeader = result[0] as ResultSetHeader;
+        if (resultHeader.affectedRows === 0) {
+            return res.status(404).send('No news found.');
+        }
+
+        return res.send();
+    } catch (e) {
+        next(e);
+    }
+});
+
+
 export default newsRouter;

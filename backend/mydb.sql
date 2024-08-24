@@ -30,3 +30,13 @@ VALUES  ('Большая новость', 'построили Кафе', NULL, '
 insert into studio.comment (id, id_news, author, message)
 values  (1, 2, 'auhor', 'Надоели'),
         (3, 1, 'аноним', 'круто');
+
+
+alter table comment
+    drop foreign key comment_news_id_fk;
+
+alter table comment
+    add constraint comment_news_id_fk
+        foreign key (id_news) references news (id)
+            on delete cascade;
+

@@ -38,6 +38,18 @@ commentsRouter.post("/", async (req: express.Request, res: express.Response, nex
             return res.status(400).send({error: 'news_id and message are required!'});
         }
 
+        const id_news = parseInt(req.body.id_news);
+
+        const newsResult = await mySqlDb.getConnection().query(
+            'SELECT * FROM news WHERE id = ?',
+            [id_news]
+        );
+        const news = newsResult[0] as News[];
+
+        if (news.length === 0) {
+            return res.status(404).send({error: 'News with the specified ID does not exist.'});
+        }
+
         const comment: CommentMutation = {
             id_news: parseInt(req.body.id_news),
             author: req.body.author,
@@ -61,8 +73,29 @@ commentsRouter.post("/", async (req: express.Request, res: express.Response, nex
     } catch (e) {
         next(e)
     }
-
 })
+
+
+commentsRouter.delete("/:id", async (req: express.Request, res: express.Response, next) => {
+    try {
+        const id = req.params.id;
+
+        const result = await mySqlDb.getConnection().query(
+            'DELETE FROM comment WHERE id = ?',
+            [id]
+        );
+
+        const resultHeader = result[0] as ResultSetHeader;
+        if (resultHeader.affectedRows === 0) {
+            return res.status(404).send('No comment found.');
+        }
+
+        return res.send();
+    } catch (e) {
+        next(e);
+    }
+});
+
 
 
 export default commentsRouter
