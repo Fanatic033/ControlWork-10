@@ -1,6 +1,6 @@
 import { News } from '../../types.ts';
 import { createSlice } from '@reduxjs/toolkit';
-import { createNews, fetchNewsThunks } from './newsThunks.ts';
+import { createNews, deleteNews, fetchNewsThunks } from './newsThunks.ts';
 
 
 interface NewsState {
@@ -46,6 +46,10 @@ export const newsSlice = createSlice({
       .addCase(createNews.rejected, (state) => {
         state.isCreate = false;
       })
+    builder
+      .addCase(deleteNews.fulfilled, (state, action) => {
+        state.items = state.items.filter(news => news.id.toString() !== action.meta.arg);  // ХЗ
+      });
   }
 })
 
