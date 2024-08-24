@@ -15,23 +15,23 @@ interface Props {
   image: string | null;
 }
 
-const newsItem: React.FC<Props> = ({ id, title, image }) => {
+const newsItem: React.FC<Props> = ({id, title, image}) => {
   let cardImage = imageNotFound;
 
   if (image) {
-    cardImage = `http://localhost:8000/${image}`;
+    cardImage = `http://localhost:8000/images/${image}`;
   }
 
   return (
-    <Grid item sx={{ width: '300px' }}>
-      <Card sx={{ height: '100%' }}>
-        <CardHeader title={title} />
-        <ImageCardMedia image={cardImage} title={title} />
+    <Grid item sx={{width: '300px'}}>
+      <Card sx={{height: '100%'}}>
+        <CardHeader title={title}/>
+        <ImageCardMedia image={cardImage} title={title}/>
         <CardContent>
         </CardContent>
         <CardActions>
           <IconButton component={Link} to={`/products/${id}`}>
-            <ArrowForwardIcon />
+            <ArrowForwardIcon/>
           </IconButton>
         </CardActions>
       </Card>

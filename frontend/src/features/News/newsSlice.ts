@@ -1,16 +1,18 @@
 import { News } from '../../types.ts';
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchNewsThunks } from './newsThunks.ts';
+import { createNews, fetchNewsThunks } from './newsThunks.ts';
 
 
 interface NewsState {
   items: News[];
   isLoading: boolean;
+  isCreate: boolean;
 }
 
 const initialState: NewsState = {
   items: [],
   isLoading: false,
+  isCreate: false,
 }
 
 export const newsSlice = createSlice({
@@ -19,7 +21,8 @@ export const newsSlice = createSlice({
   reducers: {},
   selectors: {
     selectNews: (state) => state.items,
-    selectIsLoading: (state) => state.isLoading
+    selectIsLoading: (state) => state.isLoading,
+    selectIsCreating: (state) => state.isCreate,
   },
   extraReducers: (builder) => {
     builder
@@ -32,10 +35,20 @@ export const newsSlice = createSlice({
       })
       .addCase(fetchNewsThunks.rejected, (state) => {
         state.isLoading = false;
+      });
+    builder
+      .addCase(createNews.pending, (state) => {
+        state.isCreate = true;
+      })
+      .addCase(createNews.fulfilled, (state) => {
+        state.isCreate = false;
+      })
+      .addCase(createNews.rejected, (state) => {
+        state.isCreate = false;
       })
   }
 })
 
 export const newsReducer = newsSlice.reducer;
 
-export const {selectNews, selectIsLoading} = newsSlice.selectors
+export const {selectNews, selectIsLoading, selectIsCreating} = newsSlice.selectors

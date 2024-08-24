@@ -21,7 +21,7 @@ const Products = () => {
           <Typography variant="h4">News</Typography>
         </Grid>
         <Grid item>
-          <Button color="primary" component={Link} to="/products/new">
+          <Button color="primary" component={Link} to="/news/add">
            Add new Post
           </Button>
         </Grid>
