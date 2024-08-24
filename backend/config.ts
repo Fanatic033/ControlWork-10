@@ -1,4 +1,11 @@
+import path from "path";
+
+const rootPath = __dirname;
+
+
 const config = {
+    rootPath,
+    publicPath: path.join(rootPath, 'public'),
     database: {
         host: 'localhost',
         user: 'root',
@@ -7,4 +14,4 @@ const config = {
     }
 };
 
-export default config
+export default config;
