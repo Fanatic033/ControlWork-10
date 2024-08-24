@@ -11,7 +11,7 @@ export interface NewsMutation {
     image: string | null;
 }
 
-export interface Comment{
+export interface Comments{
     id: number;
     id_news: number;
     author: string;

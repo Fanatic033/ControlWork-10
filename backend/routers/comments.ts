@@ -1,6 +1,6 @@
 import express from "express";
 import mySqlDb from "../mySqlDb";
-import {CommentMutation, News} from "../types";
+import {CommentMutation, Comments, News} from "../types";
 import {ResultSetHeader} from "mysql2";
 
 const commentsRouter = express.Router();
@@ -9,7 +9,7 @@ const commentsRouter = express.Router();
 commentsRouter.get("/", async (req: express.Request, res: express.Response, next) => {
     try {
         const result = await mySqlDb.getConnection().query("SELECT * FROM comment");
-        const comments = result[0] as Comment[];
+        const comments = result[0] as Comments[];
         return res.send(comments);
     } catch (e) {
         next(e);
@@ -21,7 +21,7 @@ commentsRouter.get("/:id", async (req: express.Request, res: express.Response, n
         const id = req.params.id;
         const result = await mySqlDb.getConnection().query("SELECT * FROM comment WHERE id = ?",
             [id]);
-        const comment = result[0] as Comment[];
+        const comment = result[0] as Comments[];
         if (comment.length === 0) {
             return res.status(404).send("No comment found.");
         }
@@ -70,7 +70,7 @@ commentsRouter.post("/", async (req: express.Request, res: express.Response, nex
             [resultHeader.insertId]
         );
 
-        const message = getNewResult[0] as Comment[];
+        const message = getNewResult[0] as Comments[];
         return res.send(message[0]);
     } catch (e) {
         next(e)
