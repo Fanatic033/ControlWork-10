@@ -6,6 +6,8 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks.ts';
 import { selectOneFetching, selectTiding } from './newsSlice.ts';
 import { fetchOneNew } from './newsThunks.ts';
 import dayjs from 'dayjs';
+import CommentsList from '../Comments/CommentList.tsx';
+import { fetchCommentsByNewsId } from '../Comments/commentThunks.ts';
 
 const OneProduct = () => {
   const {id} = useParams() as { id: string };
@@ -15,6 +17,10 @@ const OneProduct = () => {
 
   useEffect(() => {
     dispatch(fetchOneNew(id));
+  }, [dispatch, id]);
+
+  useEffect(() => {
+    dispatch(fetchCommentsByNewsId(id));
   }, [dispatch, id]);
 
   return (
@@ -45,6 +51,13 @@ const OneProduct = () => {
           <Typography>
             {tiding.created_at && dayjs(tiding.created_at).format('DD MMM YYYY, HH:mm')}
           </Typography>
+
+          <Grid item>
+          <Typography variant="h5" gutterBottom>
+            Comments
+          </Typography>
+          <CommentsList id_news={parseInt(id)} />
+        </Grid>
         </>
       )}
     </Grid>

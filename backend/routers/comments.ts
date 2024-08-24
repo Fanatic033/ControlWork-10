@@ -5,6 +5,17 @@ import {ResultSetHeader} from "mysql2";
 
 const commentsRouter = express.Router();
 
+commentsRouter.get("/news/:id_news/comments", async (req: express.Request, res: express.Response, next) => {
+    try {
+        const id_news = req.params.id_news;
+        const result = await mySqlDb.getConnection().query("SELECT * FROM comment WHERE id_news = ?", [id_news]);
+        const comments = result[0] as Comments[];
+        return res.send(comments);
+    } catch (e) {
+        next(e);
+    }
+});
+
 
 commentsRouter.get("/", async (req: express.Request, res: express.Response, next) => {
     try {
