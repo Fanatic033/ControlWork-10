@@ -22,3 +22,8 @@ export const createNews = createAsyncThunk<void, NewsMutation>('/news/create', a
 export const deleteNews = createAsyncThunk<void, string>('news/delete', async (id: string) => {
   await axiosApi.delete(`news/${id}`);
 })
+
+export const fetchOneNew = createAsyncThunk<News,string>('news/fetchOne', async (id) => {
+  const {data: tiding} = await axiosApi.get(`news/${id}`)
+  return tiding
+})

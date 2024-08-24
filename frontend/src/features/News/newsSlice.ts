@@ -1,18 +1,22 @@
 import { News } from '../../types.ts';
 import { createSlice } from '@reduxjs/toolkit';
-import { createNews, deleteNews, fetchNewsThunks } from './newsThunks.ts';
+import { createNews, deleteNews, fetchNewsThunks, fetchOneNew } from './newsThunks.ts';
 
 
 interface NewsState {
   items: News[];
+  tiding: News | null;
   isLoading: boolean;
   isCreate: boolean;
+  oneFetching: boolean;
 }
 
 const initialState: NewsState = {
   items: [],
+  tiding: null,
   isLoading: false,
   isCreate: false,
+  oneFetching: false,
 }
 
 export const newsSlice = createSlice({
@@ -23,6 +27,8 @@ export const newsSlice = createSlice({
     selectNews: (state) => state.items,
     selectIsLoading: (state) => state.isLoading,
     selectIsCreating: (state) => state.isCreate,
+    selectTiding: (state) => state.tiding,
+    selectOneFetching: (state) => state.oneFetching,
   },
   extraReducers: (builder) => {
     builder
@@ -50,9 +56,20 @@ export const newsSlice = createSlice({
       .addCase(deleteNews.fulfilled, (state, action) => {
         state.items = state.items.filter(news => news.id.toString() !== action.meta.arg);  // ХЗ
       });
+    builder
+      .addCase(fetchOneNew.pending, (state) => {
+        state.oneFetching = true
+      })
+      .addCase(fetchOneNew.fulfilled, (state, {payload: tiding}) => {
+        state.oneFetching = false;
+        state.tiding = tiding
+      })
+      .addCase(fetchOneNew.rejected, (state) => {
+        state.oneFetching = false
+      })
   }
 })
 
 export const newsReducer = newsSlice.reducer;
 
-export const {selectNews, selectIsLoading, selectIsCreating} = newsSlice.selectors
+export const {selectNews, selectIsLoading, selectIsCreating,selectTiding,selectOneFetching} = newsSlice.selectors
