@@ -38,8 +38,7 @@ const CommentForm: React.FC<Props> = ({ id_news, isLoading }) => {
     <Grid container direction="column" spacing={2} component="form" onSubmit={submitFormHandler}>
       <Grid item>
         <TextField
-          required
-          label="Author"
+          label="Anonymous"
           id="author"
           name="author"
           value={state.author}
