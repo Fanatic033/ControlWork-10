@@ -50,9 +50,11 @@ commentsRouter.post("/", async (req: express.Request, res: express.Response, nex
             return res.status(404).send({error: 'News with the specified ID does not exist.'});
         }
 
+        const author = req.body.author ? req.body.author : "Anonymous";
+
         const comment: CommentMutation = {
-            id_news: parseInt(req.body.id_news),
-            author: req.body.author,
+            id_news,
+            author,
             message: req.body.message,
         }
 
@@ -95,7 +97,6 @@ commentsRouter.delete("/:id", async (req: express.Request, res: express.Response
         next(e);
     }
 });
-
 
 
 export default commentsRouter

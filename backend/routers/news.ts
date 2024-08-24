@@ -34,7 +34,7 @@ newsRouter.get("/:id", async (req: express.Request, res: express.Response, next)
 
 
 newsRouter.post("/", imagesUpload.single('image'), async (req: express.Request, res: express.Response) => {
-    if (!req.body.title || !req.body.description) {
+    if (!req.body.title || !req.body.describe) {
         return res.status(400).send({error: 'Title and description are required!'});
     }
 
